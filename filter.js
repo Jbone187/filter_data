@@ -4,51 +4,64 @@ let {
     exec
 } = require("child_process");
 
-let testArray = [];
-let testArray2 = [];
+
+let data_split_Array = [];
+let data_cut_Array = [];
+
+//Contact Crush Job Through API
 
 let crushapi_start = exec('sh /home/jasen/Node/crush_curl.sh');
 
 crushapi_start.stdout.on('data', (data) => {
-   
-
-   let data_split_white_space = data.replace(/ /g, ',');
-
-   let data_split = data_split_white_space.split(',');
 
 
-   for (let i = 0; i < data_split.length; i++) {
+    let data_split_white_space = data.replace(/ /g, ',');
 
-    testArray.push(data_split[i])
-    
-};
+    let data_split = data_split_white_space.split(',');
 
 
-let regEx = /(.*the_file_name=.*)/i;
+    for (let i = 0; i < data_split.length; i++) {
 
-//let regEx = /(^the_)|(.*file_name=.*)/i;
+        data_split_Array.push(data_split[i])
 
-let val = testArray.filter(function(str) { return regEx.test(str) })
+    };
 
+    //Filter Data from Crush API
 
-for (let i = 0; i < val.length; i++) {
-
-let cutValue = val[i];
-
-let newValue = cutValue.substring(14);
-
-    testArray2.push(newValue);
-    
-};
+    let regEx = /(.*the_file_name=.*)/i;
 
 
-console.log(testArray2)
+    let regEx_Filter = data_split_Array.filter(function (str) {
+        return regEx.test(str)
+    })
 
-let obj = {crush: testArray2}
 
-let dataObject = JSON.stringify(obj);
+    for (let i = 0; i < regEx_Filter.length; i++) {
 
-fs.writeFileSync("/home/jasen/Node/crush_data.txt", dataObject);
+        let cutValue = regEx_Filter[i];
+
+        let newValue = cutValue.substring(14);
+
+        data_cut_Array.push(newValue);
+
+    };
+
+    //Clean up Duplicates in Array
+
+    let duplicate_set_clean = new Set(data_cut_Array);
+
+    console.log(duplicate_set_clean)
+
+    let crush_obj = {
+
+        crush: [...duplicate_set_clean]
+    }
+
+    //Create Json Data and add to file
+
+    let dataObject = JSON.stringify(crush_obj);
+
+    fs.writeFileSync("/home/jasen/Node/crush_data.json", dataObject);
 
 
 });
