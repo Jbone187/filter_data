@@ -3,7 +3,7 @@ let fs = require('fs');
 let crush_node_config = require('./crush_node_config.json');
 
 
-fs.readFile('crush_node_config.file', 'utf8', function (err, data) {
+fs.readFile(crush_node_config.file, 'utf8', function (err, data) {
 
     if (err) {
         return console.log(err);
