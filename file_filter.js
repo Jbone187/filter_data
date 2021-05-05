@@ -22,7 +22,7 @@ fs.readFile(crush_node_config.file, 'utf8', function (err, data) {
     // Create Json file
     let crush_obj = {
 
-        crush: [arrFiltered]
+        crush: arrFiltered
     };
 
     let dataObject = JSON.stringify(crush_obj);
