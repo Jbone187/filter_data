@@ -3,7 +3,7 @@ let fs = require('fs');
 let crush_node_config = require('./crush_node_config.json');
 
 
-fs.readFile(crush_node_config.file, 'utf8', function (err, data) {
+fs.readFile(crush_node_config.deleteCache, 'utf8', function (err, data) {
 
     if (err) {
         return console.log(err);
@@ -27,7 +27,7 @@ fs.readFile(crush_node_config.file, 'utf8', function (err, data) {
 
     let dataObject = JSON.stringify(crush_obj);
 
-    fs.writeFileSync(crush_node_config.jsonFile, dataObject);
+    fs.writeFileSync('crush_data.json', dataObject);
 
     //Cache file clean up
     fs.unlink(crush_node_config.deleteCache, (err) => {
