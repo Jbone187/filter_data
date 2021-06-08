@@ -2,7 +2,7 @@ let fs = require('fs');
 let crush_args = process.argv
 
 //Pull Data from Directory containing .json Files
-fs.readdir(`./${crush_args[2]}`, function (err, json_files) {
+fs.readdir(`${crush_args[2]}`, function (err, json_files) {
 
     let arr_json = [];
 
@@ -29,28 +29,41 @@ fs.readdir(`./${crush_args[2]}`, function (err, json_files) {
 
 function pullData(newArr) {
 
-    let numArray = []
+    let numArray = [];
+    let num_json_Array = [];
+
     //Pull time stamp numbers from .json file name
     for (let i = 0; i < newArr.length; i++) {
 
-        let newData = newArr[i].replace(/\D/g, '');
+        //Remove after second underscore
+        let regex = /^(?:[^_]+_){2}([^_ ]+)/;
 
-        numArray.push(newData);
+        let newData = regex.exec(newArr[i]);
+
+        num_json_Array.push(newData[1]);
+    };
+
+    for (let i = 0; i < num_json_Array.length; i++) {
+
+        //Take out .json
+        let dataSplit = num_json_Array[i].replace('.json', '');
+
+        numArray.push(dataSplit);
     };
 
     const numbers = numArray.map((n) => {
         return parseInt(n);
     });
 
-    let maxValue = Math.max(...numbers);
     //Pull latest time stamp and find file
-    let crush_json = require(`./cr_test/server_name_${maxValue}.json`); //UPDATE WITH SERVER DIRECTORY AND PROPER FILE NAME!!!!! ${crush_args[??]}
+    let maxValue = Math.max(...numbers);
+
+    let crush_json = require(`${crush_args[2]}/${crush_args[3]}${maxValue}.json`); //UPDATE WITH SERVER DIRECTORY AND PROPER FILE NAME!!!!! ${crush_args[??]}
 
     let newArray = [];
 
-    //Pull Data from File Directory to Compare against .json file
-
-    fs.readdir(`./${crush_args[3]}`, function (err, files) {
+    //Pull Data from File Directory to Compare against .json
+    fs.readdir(`${crush_args[4]}`, function (err, files) {
 
         if (err) {
             return console.log('Unable to scan directory: ' + err);
@@ -73,7 +86,6 @@ function pullData(newArr) {
         });
 
         //Data Output
-
         console.log(crush_obj.crush);
 
         console.log(crush_json.crush);
@@ -81,7 +93,6 @@ function pullData(newArr) {
         console.log(finalCompare)
 
         //Job will be ran after boolean value is determined
-
         if (finalCompare === true) {
 
             console.log("Success")
