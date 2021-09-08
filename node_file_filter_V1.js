@@ -49,13 +49,13 @@ fs.readFile(`/${crush_args[3]}/${crush_args[2]}.txt`, 'utf8', function (err, dat
 
     //Cache file clean up
 
-    /*  
-    fs.unlink(`/${crush_args[4]}/${crush_args[2]}_${crush_args[3]}.txt`, (err) => {
+     
+    fs.unlink(`/${crush_args[3]}/${crush_args[2]}.txt`, (err) => {
         if (err) {
             throw err;
         }
 
-        console.log(`${crush_args[2]}_${crush_args[3]}.txt File has been deleted...`);
+        console.log(`${crush_args[2]}.txt File has been deleted...`);
     });
-*/
+
 });
