@@ -100,7 +100,15 @@ function pullData(newArr) {
 
     } else if (crush_args[5] === 'true') {
 
-        fs.renameSync(`${crush_args[3]}/${crush_args[2]}${maxValue}.json`, `${crush_args[6]}/${crush_args[2]}${date}${maxValue}.json`)
+        fs.copyFileSync(`${crush_args[3]}/${crush_args[2]}${maxValue}.json`, `${crush_args[6]}/${crush_args[2]}${date}${maxValue}.json`)
+
+        fs.unlink(`${crush_args[3]}/${crush_args[2]}${maxValue}.json`, (err) => {
+            if (err) {
+                throw err;
+            }
+
+            console.log(`${crush_args[2]}${maxValue}.json File has been deleted...`);
+        });
 
         console.log(`${crush_args[2]}${date}${maxValue}.json File has been moved to file directory.. ${crush_args[6]}`);
 
