@@ -49,7 +49,7 @@ fs.readFile(`/${crush_args[3]}/${crush_args[2]}.txt`, 'utf8', function (err, dat
 
     //Cache file clean up
 
-     
+      
     fs.unlink(`/${crush_args[3]}/${crush_args[2]}.txt`, (err) => {
         if (err) {
             throw err;
