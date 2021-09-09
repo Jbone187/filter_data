@@ -57,5 +57,4 @@ fs.readFile(`/${crush_args[3]}/${crush_args[2]}.txt`, 'utf8', function (err, dat
 
         console.log(`${crush_args[2]}.txt File has been deleted...`);
     });
-
 });
