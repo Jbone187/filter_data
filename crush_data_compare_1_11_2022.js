@@ -56,7 +56,6 @@ function pullData(newArr) {
     let numArray = [];
     let num_json_Array = [];
 
-    console.log(newArr);
 
     //Pull time stamp numbers from .json file name
     for (let i = 0; i < newArr.length; i++) {
@@ -157,6 +156,9 @@ function pullData(newArr) {
 
 
     //Pull Data from File Directory to Compare against .json
+
+    setInterval(function() {
+
     fs.readdir(`${crush_args[4]}`, function (err, files) {
 
         if (err) {
@@ -191,13 +193,16 @@ function pullData(newArr) {
 
             console.log("Success")
 
+            process.exit();
+
         } else if (finalCompare === false) {
 
             throw new Error('File Directories Dont Match')
 
         };
 
-    });
+    }) }
 
+    ,4000);
 
 };
